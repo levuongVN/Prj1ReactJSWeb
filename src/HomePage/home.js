@@ -1,9 +1,9 @@
 import React from 'react';
-import Navigation_Component from '../Navigation/navigation';
+import NavigationComponent from '../Navigation/navigation';
 export default function HomComponent() {
     return(
         <div className='bg-dark' style={{height:"100vh"}}>
-        <Navigation_Component />
+        <NavigationComponent />
         </div>
     )
 }

@@ -1,41 +1,340 @@
-.container{
-  transform: translate(0%,50%);
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600&family=Oswald:wght@200..700&family=Monoton&family=Montserrat+Alternates:ital,wght@0,100..900;1,100..900&family=ABeeZee:ital@0;1&display=swap");
+
+:root {
+  --primary-gradient: linear-gradient(180deg, #24065A 0%, #8A0B31 100%);
+  --title-gradient: linear-gradient(to right, #4b0a60 0%, #c72586 100%);
+  --form-bg: rgba(217, 217, 217, 0.87);
+  --input-gradient: linear-gradient(to right, #f0f0f0 0%, #cab5b5 100%);
+  --button-color: #00d0a0;
 }
-.LayerTwo {
-  background-image: url("./imageLayer.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 10px;
+
+.SignUp-wrapper {
   width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  height: 100vh;
+  background-color: grey;
 }
-.LayerTwo::before {
-  content: "";
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  filter: blur(55.6px);
-}
-.LayerThree {
-  /* Rectangle 1 */
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: black;
-  width: 100%;
-  height: 100%;
-  margin: 0%;
-  background: rgb(36, 6, 90);
-  background: linear-gradient(
-    0deg,
-    rgba(36, 6, 90, 1) 0%,
-    rgba(138, 11, 49, 1) 100%
-  );
+
+.Container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
   border-radius: 20px;
-  border:black solid 1px;
+}
+
+.background-container,
+.Layer1,
+.Layer2,
+.Layer3 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 20px;
+}
+
+.Layer1 {
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 1;
+}
+
+.Layer2 {
+  background-image: url('./imageLayer.jpg');
+  background-size: cover;
+  filter: blur(55.6px);
+  z-index: 2;
+}
+
+.Layer3 {
+  background: var(--primary-gradient);
+  filter: blur(37.8px);
+  z-index: 3;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25),
+    inset 70px -70px 70px rgba(66, 7, 53, 0.083),
+    inset -70px 70px 70px rgba(255, 255, 255, 0.083);
+}
+
+.image-container {
+  margin-top: -2rem;
+  margin-left: 1rem;
+  width: 100%;
+}
+
+.login-content {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  padding: 2%;
+  color: white;
+}
+
+.title {
+  font-family: 'Monoton', cursive;
+  font-size: 4rem;
+  line-height: 1.2;
+  position: relative;
+  z-index: 2;
+}
+
+.JoinText {
+  font-family: "Montserrat Alternates", sans-serif;
+  font-size: 2.5rem;
+  margin-top: -1.3rem;
+}
+FormControl{
+  margin-left: 100px;
+}
+.Bg-Form {
+  box-shadow: -20px 19px 24.9px rgba(0, 0, 0, 0.25);
+  background: var(--form-bg);
+  border-radius: 15px;
+}
+
+.login-form {
+  padding: 0 5%;
+  height: 100%;
+}
+
+.login-form h2 {
+  font-family: 'Montserrat Alternates', sans-serif;
+  background: var(--title-gradient);
+  background-clip: text;
+  color: transparent;
+  font-size: 3rem;
+}
+.login-form > h2:first-child{
+  margin-top: -5rem;
+  padding-bottom: 6rem;
+}
+
+.login-form .TitleCreat {
+  text-align: left;
+  color: #473241;
+  font-size: 2rem;
+}
+
+.form-control {
+  background: var(--input-gradient);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem;
   box-shadow: 0px 4px 4px black;
-  filter: blur(75.6px);
+
+  &:focus {
+    outline: transparent;
+  }
+
+  &::placeholder {
+    font-family: "ABeeZee", sans-serif;
+    color: #9F9F9F;
+  }
+}
+
+.btn-primary {
+  background: var(--button-color);
+  border: none;
+  padding: 0.5rem;
+  font-weight: 500;
+  font-family: 'Montserrat Alternates';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 105.64%;
+  letter-spacing: 0.06em;
+  color: #FFFFFF;
+  box-shadow: 0px 4px 4px 0px black;
+
+  &:hover {
+    background: var(--button-color);
+  }
+}
+
+small {
+  font-style: italic;
+}
+
+.TextSignIn {
+  font-family: 'ABeeZee', sans-serif;
+  color: #747373;
+}
+
+small .LinkSignIn {
+  color: #00D0A0;
+}
+
+.TextOr {
+  color: #AB9292;
+  font-size: x-large;
+}
+
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 20px);
+  margin-top: 1rem;
+}
+
+.social-icon {
+  --icon-size: clamp(2.5rem, 5vw, 3rem);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(6px, 1.5vw, 10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.social-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .Container {
+    width: 95%;
+    height: auto;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    margin-top: -1.8rem;
+    text-align: left;
+  }
+  .img-fluid{
+    margin-top: -8.5rem;
+    width:100%;
+  }
+
+  .JoinText {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .login-form h2 {
+    font-size: 2rem;
+  }
+
+  .login-form > h2:first-child {
+    margin-top: 0;
+    padding-bottom: 2rem;
+  }
+
+  .login-form .TitleCreat {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .btn-primary {
+    font-size: 1.2rem;
+  }
+
+  .image-container {
+    margin: 1rem 0;
+    text-align: center;
+  }
+
+  .Bg-Form {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .Container {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .background-container,
+  .Layer1,
+  .Layer2,
+  .Layer3 {
+    border-radius: 0;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .JoinText {
+    font-size: 1.5rem;
+  }
+
+  .login-form {
+    padding: 0 3%;
+  }
+
+  .login-form h2 {
+    font-size: 1.8rem;
+  }
+
+  .login-form > h2:first-child {
+    padding-bottom: 1.5rem;
+  }
+
+  .form-control {
+    font-size: 0.9rem;
+  }
+
+  .btn-primary {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .social-icon:hover {
+    transform: translateY(-8px);
+  }
+}
+
+.social-icon:hover svg path {
+  transition: fill 0.3s ease;
+}
+
+/* Google icon - màu mặc định */
+.social-icon:nth-child(1) svg path:nth-child(1) {
+  fill: #FFC107;
+}
+
+.social-icon:nth-child(1) svg path:nth-child(2) {
+  fill: #FF3D00;
+}
+
+.social-icon:nth-child(1) svg path:nth-child(3) {
+  fill: #4CAF50;
+}
+
+.social-icon:nth-child(1) svg path:nth-child(4) {
+  fill: #1976D2;
+}
+
+/* GitHub icon - màu mặc định */
+.social-icon:nth-child(2) svg path {
+  fill: #333;
+}
+
+/* Facebook icon - màu mặc định */
+.social-icon:nth-child(3) svg path:first-child {
+  fill: #1877F2;
+}
+
+.social-icon:nth-child(3) svg path:last-child {
+  fill: #ffffff;
+}
+
+/* Hover effects - có thể thêm scale hoặc brightness */
+.social-icon:hover {
+  transform: translateY(-5px);
+  filter: brightness(1.1);
+}
+
+/* Base state cho icons - đặt ở trên cùng */
+.social-icon svg path {
+  transition: fill 0.3s ease;
 }

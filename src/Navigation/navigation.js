@@ -4,12 +4,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ComponentContenSearch from "./contentSearch";
 
-export default function Navigation_Component() {
+export default function NavigationComponent() {
   const [CheckClickToSearch, setCheckClickToSearch] = useState(false); //
   const [CheckClickToLogin, setCheckClickToLogin] = useState(false);
-  function transform(value) {
-    return value <= 1 && value !== 0 ? `${value * 100}%` : value;
-  }
   function ClickToSearch(e) {
     if (!CheckClickToSearch) {
       setCheckClickToSearch(true);
