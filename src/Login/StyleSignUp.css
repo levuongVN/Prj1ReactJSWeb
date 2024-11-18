@@ -2,7 +2,7 @@
   transform: translate(0%,50%);
 }
 .LayerTwo {
-  background-image: url("/Users/levuong2005/Documents/GitHub/FirstPrjReactJS/src/Login/imageLayer.jpg");
+  background-image: url("./imageLayer.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 10px;

@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import "./Style.css";
-import imgLogin from "/Users/levuong2005/Documents/GitHub/FirstPrjReactJS/src/Login/ImageLogin.png";
+import imgLogin from "/Users/vuongle/ImportanDocuments/Prj1ReactJSWeb/src/Login/ImageLogin.png";
 
 export default function LoginComponent() {
   // State variables
@@ -73,7 +73,7 @@ export default function LoginComponent() {
   }, [i18n.language]);
 
   return (
-    <>
+    <div>
       <div className="bg-secondary" style={{ height: "100vh", width: "100%" }}>
         <div className="bg-white LayerOne">
           <div className="LayerTwo">
@@ -229,6 +229,6 @@ export default function LoginComponent() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
