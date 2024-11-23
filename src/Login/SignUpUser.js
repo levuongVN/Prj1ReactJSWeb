@@ -1,11 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from "react-router-dom";
 import ImgSignup from "./ImageLogin.png";
 import "./StyleSignUp.css";
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { FormControl, Select, MenuItem } from "@mui/material";
+import TransitionAlerts from "./AlertLogin/Alert"
 export default function LoginComponent() {
-  const [Languages, setLanguages] = React.useState('English');
-  // Tạo mảng chứa thông tin các social icons
+  const [Languages, setLanguages] = useState('English');
+  const [InputName, setInputName] = useState('');
+  const [InputEmail, setInputEmail] = useState('')
+  const [InputPass, setInputPass] = useState('');
+  const [CheckInput, setCheckInput] = useState([null, null, null]);
+  const [AlertMsg, setAlertMsg] = useState([null, null, null]);
+  const [ErrMessages, setErrMessages] = useState(["", "", ""]);
+  const navigate = useNavigate();
   const socialIcons = [
     {
       icon: (
@@ -36,87 +44,226 @@ export default function LoginComponent() {
       label: 'Facebook'
     }
   ];
-  const handleChange = (e) => {
-    setLanguages(e.target.value)
+  const { t, i18n } = useTranslation(); // khai báo biến đề dịch và kiểm tra loại ngôn ngữ dịch
+  const Debounce = (Func, Delay) => { // Ham debounce nhan hai tham so, ham can debounce va tham so delay
+    let Timeout; // bien de luu ID timeout
+    return (...agrs) => { // Tra ve mot ham, voi tham so truyen vao la mang cac gia tri nguoi dung nhap vao
+      if (Timeout) clearTimeout(Timeout); // Neu co time out cu, se tien hanh xoa no di de toi uu
+      Timeout = setTimeout(() => Func(...agrs), Delay); // Truyen time out moi voi cacs gia tri hien tai va delay hien tai
+    }
   }
+  const handleChangeLanguage = (e) => {
+    setLanguages(e.target.value)
+    i18n.changeLanguage(e.target.value === "English" ? "en" : "vi")
+  }
+  const validateInput = (value, type) => {
+    let isValid = false;
+    let errorMessage = "";
 
+    switch (type) {
+      case 'name':
+        const nameRegex = /^[A-ZÁÀẠẢÃẠÊÔÔƠỨÝĐÍÝƯÁÀẸÈẸẢĀŌÑĐA-Za-zÀ-ỹ\s]+$/;
+        isValid = nameRegex.test(value);
+        errorMessage = isValid ? "It's fine" : "Your name is not suitable";
+        break;
+      case 'email':
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        isValid = emailRegex.test(value);
+        errorMessage = isValid ? "It's fine" : "Your email is not suitable";
+        break;
+      case 'password':
+        isValid = value.length >= 6; // Example validation for password
+        errorMessage = isValid ? "It's fine" : "Password must be at least 6 characters long";
+        break;
+      default:
+        break;
+    }
+
+    return { isValid, errorMessage }; // tra ve cac thong bao loi va cac field loi
+  };
+
+  const handleChangeInput = (e, type) => {
+    const value = e.target.value;
+    switch (type) {
+      case 'name':
+        setInputName(value); // Truyen du lieu tu phia input
+        break;
+      case 'email':
+        setInputEmail(value);
+        break;
+      case 'password':
+        setInputPass(value);
+        break;
+      default:
+        break;
+    }
+
+    const { isValid, errorMessage } = validateInput(value, type); // goi ham de kiem tra gia tri dau vao co hop le khong
+    setCheckInput(prev => {
+      const newCheckInput = [...prev]; // Lấy cẩ giấ trị cũ trong state
+      newCheckInput[type === 'name' ? 0 : type === 'email' ? 1 : 2] = isValid;
+      return newCheckInput;
+    });
+    setErrMessages(prev => {
+      const newErrMessages = [...prev];
+      newErrMessages[type === 'name' ? 0 : type === 'email' ? 1 : 2] = errorMessage;
+      return newErrMessages;
+    });
+  };
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    let alerts = [...AlertMsg];
+    let showAlert = false; // Biến để kiểm tra xem có alert nào cần hiển thị không
+    if (InputName.length === 0) {
+        alerts[0] = t("Please fill in the name field");
+        showAlert = true;
+    }
+    if (InputEmail.length === 0) {
+      alerts[1] = t("Please fill in the email field");
+        showAlert = true;
+    }
+    if (InputPass.length === 0) {
+        alerts[2] = t("Please fill in the password field");
+        showAlert = true;
+    }
+
+    setAlertMsg(alerts);
+
+    // Nếu có alert, ẩn nó sau 5 giây
+    if (showAlert) {
+        setTimeout(() => {
+            setAlertMsg([null, null, null]); // Đặt lại alert về null
+        }, 5000);
+    }else {
+      for (let i = 0; i < ErrMessages.length; i++) {
+        if(!ErrMessages[i].includes("It's fine")){
+          return;
+        }
+      }
+      navigate('/')
+    }
+  }
+  // Update the input change handlers
+  const handleChangeInputName = Debounce((e) => handleChangeInput(e, 'name'), 500); // Goi ham debounce
+  const handleChangeEmail = Debounce((e) => handleChangeInput(e, 'email'), 500);
+  const handleChangePass = Debounce((e) => handleChangeInput(e, 'password'), 500);
   return (
-    <div className="SignUp-wrapper d-flex justify-content-center align-items-center">
-      <div className="Container">
-        {/* Background Layers */}
-        <div className="background-container">
-          {[1, 2, 3].map(num => (
-            <div key={num} className={`Layer${num}`}></div>
-          ))}
-        </div>
-
-        {/* Login Content */}
-        <div className="login-content">
-          <div className="row h-100 g-0">
-            {/* Left Side */}
-            <div className="col-12 col-md-6 d-flex flex-column justify-content-between p-4">
-              <h1 className="title display-4">Study<br />the<br />word</h1>
-              <div className="image-container">
-                <img src={ImgSignup} alt="Login" className="img-fluid" />
+    <div>
+      <div style={{position:"absolute", right:"0%", zIndex:"5"}} className="mt-2 me-3 ">
+        {
+          AlertMsg.map((alert, index) => (
+            alert && <TransitionAlerts key={index} message={alert} />
+          ))
+        }
+      </div>
+      <div className="SignUp-wrapper d-flex justify-content-center align-items-center">
+        <div className="Container">
+          {/* Background Layers */}
+          <div className="background-container">
+            {[2, 3].map(num => (
+              <div key={num} className={`Layer${num}`}></div>
+            ))}
+          </div>
+          {/* Login Content */}
+          <div className="login-content">
+            <div className="row h-100 g-0">
+              {/* Left Side */}
+              <div className="col-12 col-md-6 d-flex flex-column justify-content-between LeftSide">
+                <h1 className="title display-4">Study<br />the<br />word</h1>
+                <div className="image-container">
+                  <img src={ImgSignup} alt="Login" className="img-fluid" />
+                </div>
+                <p className="JoinText d-md-block">Join us!</p>
               </div>
-              <div>
-                <p className="JoinText text-end d-md-block">Join us!</p>
-              </div>
-            </div>
 
-            {/* Right Side */}
-            <div className="col-12 col-md-6 p-4 Bg-Form">
-              <div className="d-flex justify-content-end">
-                <FormControl variant="standard" sx={{ m: 1, minWidth: 120, width: "max-content" }} className="col-12">
-                  <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    value={Languages}
-                    onChange={handleChange}
-                    label="Languages"
-                  >
-                    <MenuItem value={'English'}>English</MenuItem>
-                    <MenuItem value={'Vietnamese'}>Vietnamese</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <form className="login-form text-center h-100 d-flex flex-column justify-content-center">
-                <h2 className="mb-4">Welcome</h2>
-                <h2 className="TitleCreat mb-4">Create Account</h2>
+              {/* Right Side */}
+              <div className="col-12 col-md-6 p-1 Bg-Form">
+                <div className="d-flex justify-content-end">
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120, width: "max-content" }} className="col-12">
+                    <Select
+                      labelId="demo-simple-select-standard-label"
+                      id="demo-simple-select-standard"
+                      value={Languages}
+                      onChange={handleChangeLanguage}
+                      label="Languages"
+                    >
+                      <MenuItem value={'English'}>English</MenuItem>
+                      <MenuItem value={'Vietnamese'}>Vietnamese</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+                <form className="login-form text-center h-100 d-flex flex-column justify-content-center">
+                  <h2 className="mb-4 WelcomeText">{t('WELCOME')}</h2>
+                  <h2 className="TitleCreat mb-4">{t('Create Account')}</h2>
 
-                {/* Form Fields */}
-                {['Full name', 'Email', 'Password'].map((placeholder, index) => (
-                  <div key={index} className="form-group mb-3">
+                  <div className="form-group mb-4">
                     <input
-                      type={index === 2 ? 'password' : index === 1 ? 'email' : 'text'}
-                      className="form-control"
-                      placeholder={placeholder}
+                      type="text"
+                      className={`form-control ${CheckInput[0] === null ? "" : CheckInput[0] ? "is-valid" : "is-invalid"}`}
+                      placeholder={t('Full name')}
+                      onChange={handleChangeInputName}
                     />
+                    <div className="invalid-feedback text-start mt-2">
+                      {t(ErrMessages[0])}
+                    </div>
+                    <div className="valid-feedback text-start mt-2">
+                      {t(ErrMessages[0])}
+                    </div>
                   </div>
-                ))}
+                  <div className="form-group mb-4">
+                    <input
+                      type="email"
+                      className={`form-control ${CheckInput[1] === null ? "" : CheckInput[1] ? "is-valid" : "is-invalid"}`}
+                      placeholder={t('Email')}
+                      onChange={handleChangeEmail}
+                    />
+                    <div className="invalid-feedback text-start mt-2">
+                      {t(ErrMessages[1])}
+                    </div>
+                    <div className="valid-feedback text-start mt-2">
+                      {t(ErrMessages[1])}
+                    </div>
+                  </div>
+                  <div className="form-group mb-3">
+                    <input
+                      type="password"
+                      className={`form-control ${CheckInput[2] === null ? "" : CheckInput[2] ? "is-valid" : "is-invalid"}`}
+                      placeholder={t('Password')}
+                      onChange={handleChangePass}
+                    />
+                    <div className="invalid-feedback text-start mt-2">
+                      {t(ErrMessages[2])}
+                    </div>
+                    <div className="valid-feedback text-start mt-2">
+                      {t(ErrMessages[2])}
+                    </div>
+                  </div>
 
-                <button type="submit" className="btn btn-primary w-100 mb-3">Sign Up</button>
+                  <button type="button" onClick={handleSignUp} className="btn btn-primary w-100 mb-3 d-flex justify-content-center align-items-center">
+                    <p className="mb-0">{t('Sign Up')}</p>
+                  </button>
 
-                <div className="form-group mb-3">
-                  <small className="TextSignIn">
-                    Already have an account?
-                    <Link to={''} className="ms-2 LinkSignIn">Sign in</Link>
-                  </small>
-                </div>
+                  <div className="form-group mb-3">
+                    <small className="TextSignIn">
+                      {t('Already have an account?')}
+                      <Link to={'/Login/user'} className="ms-2 LinkSignIn">{t('Sign in')}</Link>
+                    </small>
+                  </div>
 
-                <div className="form-group mb-3">
-                  <p className="TextOr">-or-</p>
-                </div>
+                  <div className="form-group mb-3">
+                    <p className="TextOr">-{t('or')}-</p>
+                  </div>
 
-                {/* Social Icons */}
-                <div className="form-group social-login">
-                  {socialIcons.map((item, index) => (
-                    <Link key={index} to={''} className="social-icon" aria-label={item.label}>
-                      {item.icon}
-                    </Link>
-                  ))}
-                </div>
-              </form>
+                  {/* Social Icons */}
+                  <div className="form-group social-login">
+                    {socialIcons.map((item, index) => (
+                      <Link key={index} to={''} className="social-icon" aria-label={item.label}>
+                        {item.icon}
+                      </Link>
+                    ))}
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

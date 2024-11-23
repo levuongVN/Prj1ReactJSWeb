@@ -1,42 +1,15 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-
+import { en } from './TranslateLanguage/en';
+import {vi } from './TranslateLanguage/vi';
 // Khai báo ngôn ngữ và tệp dịch của bạn
 i18n.use(initReactI18next).init({
   resources: {
     en: {
-      translation: {
-        "Welcome": "Welcome",
-        "Welcome back": "Welcome back",
-        "Email": "Email",
-        "Password": "Password",
-        "Forgot password?": "Forgot password?",
-        "Sign up": "Sign up",
-        "Don't have an account?": "Don't have an account?",
-        "Sign in": "Sign in",
-        "-or-": "-or-",
-        "Email is required":"Email is required",
-        "Invalid email address":"Invalid email address",
-        "Password must be at least 8 characters long":"Password must be at least 8 characters long",
-        "It's fine":"It's fine"
-      },
+      translation: en,
     },
     vi: {
-      translation: {
-        "Welcome": "Chào mừng",
-        "Welcome back": "Chào mừng quay lại",
-        "Email": "Email",
-        "Password": "Mật khẩu",
-        "Forgot password?": "Quên mật khẩu?",
-        "Sign up": "Đăng ký",
-        "Don't have an account?": "Chưa có tài khoản?",
-        "Sign in": "Đăng nhập",
-        "-or-": "-hoặc-",
-        "Email is required":"Email là bắt buộc",
-        "Invalid email address":"Định dạng email không hợp lệ",
-        "Password must be at least 8 characters long":"Mật khẩu phải có ít nhất 8 ký tự",
-        "It's fine":"Có vẻ ổn"
-      },
+      translation: vi,
     },
   },
   lng: "en", // Ngôn ngữ mặc định

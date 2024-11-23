@@ -1,0 +1,23 @@
+export const vi = {
+  // Right side
+  "WELCOME": "Xin chào",
+  "Welcome back":"Chào mừng trở lại",
+  "Create Account": "Tạo tài khoản",
+  "Full name": "Họ và tên",
+  "Email": "Email",
+  "Password": "Mật khẩu",
+  "Sign Up": "Đăng ký",
+  "Already have an account?": "Đã có tài khoản?",
+  "Sign in": "Đăng nhập",
+  "or": "hoặc",
+  "Don't have an account?":"Chưa có tài khoản?",
+  "Sign up":"Đăng ký ngay",
+  "Please fill in the name field": "Vui lòng nhập tên",
+  "Please fill in the email field": "Vui lòng nhập email",
+  "Please fill in the password field": "Vui lòng nhập mật khẩu",
+  "Password must be at least 6 characters long": "Mật khẩu phải có ít nhất 6 ký tự",
+  "Your name is not suitable": "Tên của bạn không hợp lệ",
+  "Your email is not suitable": "Email của bạn không hợp lệ",
+  "It's fine": "Có vẻ ổn",
+  "Your password is not suitable": "Mật khẩu của bạn không h��p lệ",
+};
